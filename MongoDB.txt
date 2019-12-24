@@ -1,0 +1,110 @@
+npm install -g --force nodemon
+
+安装配置
+https://blog.csdn.net/xueyawuhai/article/details/98973708
+
+基本操作
+https://www.cnblogs.com/cxscode/p/8310040.html
+
+   所以数据库dbs-数据库db-集合Collections-数据（类似JSON）
+
+开启
+mongo
+
+查看所有数据库列表
+show dbs
+
+切换/创建数据库
+use 数据库名
+
+创建集合
+db.createCollection('集合名',{size: 20, capped: 5, max: 100})
+
+删除当前使用数据库
+ db.dropDatabase();
+
+查看当前的数据库名
+db.getName()
+db
+
+在集合中插入数据
+db.集合名.insert({name:"jack",age:22})
+
+获取当前数据库中的所有集合名
+show collections
+db.getCollectionNames()
+
+查看集合中的数据
+find()/findOne()条件过滤
+db.Student.find({name:"jack"})
+db.Student.findOne({name:"jack"})
+
+find()/findOne()指定返回的fileds
+db.Student.find({name:"jack"},{name:1,age:1})
+只获取name等于jack的Student，并且filed为name，age的数据。
+
+查询条件
+"$lt","$lte","$gt","$gte"分别对应<,<=,>,>= 
+如下代码：
+db.Student.find({age:{$gt:33}}) 查询age大于33的 
+db.Student.find({age:{$gte:33}})
+db.Student.find({age:{$lt:33}})
+db.Student.find({age:{$lte:33}})
+db.Student.find({age:{$gt:23,$lt:43}})
+
+$ne 代表不等于 
+db.Student.find({age:{$ne:33}}) 查询age不等于33
+$in,$not和$or
+
+特殊查询--null和exists
+
+null可以匹配自身,而且可以匹配"不存在的"
+
+--插入测试数据
+db.Student.insert({name:null,sex:1,age:18})
+db.Student.insert({sex:1,age:24})
+
+db.Student.find({name:null})        --上面两条都能查到
+db.Student.find({name:{$in:[null],$exists:true}})  ---只能查到第一条   
+
+数组数据查询
+db.Student.insert({name:"wjh",sex:1,age:18,color:["red","blue","black"]})
+db.Student.insert({name:"lpj",sex:1,age:22,color:["white","blue","black"]})
+db.Student.find()
+
+
+
+7、排序
+
+db.Student.find().sort({age:1})
+db.Student.find().sort({age:1,sex:1})  
+
+--1代表升序，-1代表降序
+
+
+
+
+8、分页
+
+db.Student.find().sort({age:1}).limit(3).skip(3) 
+
+9、获取数量
+
+db.Student.count({name:null})   
+--或者
+db.Student.find({name:null}).count()
+
+
+删除数据
+db.Student.remove({name:null})
+
+更新数据
+db.Student.update({name:"jack"},{$set:{age:55}}) 
+
+1、添加
+db.users.save({name: ‘zhangsan’, age: 25, sex: true});
+
+
+
+
+
