@@ -28,7 +28,7 @@ router.get('/students', function (req, res) {
     if (err) {
       return res.status(500).send('Server error.')
     }
-    res.render('index.html', {
+    res.render('index-m.html', {
       fruits: [
         '苹果',
         '香蕉',
@@ -43,7 +43,7 @@ router.get('/students', function (req, res) {
  * 渲染添加学生页面
  */
 router.get('/students/new', function (req, res) {
-  res.render('new.html')
+  res.render('new-m.html')
 })
 
 /*
@@ -54,7 +54,8 @@ router.post('/students/new', function (req, res) {
   // 2. 处理
   //    将数据保存到 db.json 文件中用以持久化
   // 3. 发送响应
-  Student.save(req.body, function (err) {
+
+ Student.save(re.body,function (err) {
     if (err) {
       return res.status(500).send('Server error.')
     }
@@ -77,9 +78,11 @@ router.get('/students/edit', function (req, res) {
     if (err) {
       return res.status(500).send('Server error.')
     }
-    res.render('edit.html', {
+    res.render('edit-m.html', {
       student: student
+
     })
+console.log(typeof(student.gender))
   })
 })
 
