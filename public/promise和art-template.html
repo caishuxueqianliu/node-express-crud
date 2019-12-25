@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<!--   <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script> -->
+  <script type="text/javascript" src="./js/template-web.js"></script>
+<body>
+ 
+    <div id="area"></div>
+  <script type="text/html" id="tpl">
+
+    <div>
+      <label for="">用户名</label>
+      <input type="text" value="{{ user.username }}">
+    </div>
+    <div>
+      <label for="">年龄</label>
+      <input type="text" value="{{ user.age }}">
+    </div>
+    <div>
+      <label for="">职业</label>
+      <select name="" id="">
+        {{ each jobs }}
+         {{ if user.job === $value.id }}
+     <option value="{{ $value.id }}" selected>{{ $value.name }}</option>
+        {{ else }}
+        <option value="{{ $value.id }}">{{ $value.name }}</option>
+        {{ /if }} {{ /each }}
+      </select>
+    </div>
+  </script>
+  
+  <script>
+   
+ var data={}
+    pGet('http://127.0.0.1:3000/users/4')
+      .then(function (user) {
+        
+              data.user=user
+              console.log(data)
+             return pGet('http://127.0.0.1:3000/jobs')
+      
+      }).then((jobs=>{
+         data.jobs=jobs
+
+console.log(data)
+// console.log(data.user)
+// console.log(data.job)
+        var html = template('tpl', data);
+        document.getElementById('area').innerHTML = html;
+      }))
+
+    function pGet(url, callback) {
+      return new Promise(function (resolve, reject) {
+        var oReq = new XMLHttpRequest()
+        // 当请求加载成功之后要调用指定的函数
+        oReq.onload = function () {
+          // 我现在需要得到这里的 oReq.responseText
+          callback && callback(JSON.parse(oReq.responseText))
+          resolve(JSON.parse(oReq.responseText))
+        }
+        oReq.onerror = function (err) {
+          reject(err)
+        }
+        oReq.open("get", url, true)
+        oReq.send()
+      })
+    }
+
+  // 用户表
+    //  其中一个接口获取用户数据
+    //  职业：2
+    // 职业信息表
+    //  其中一个接口获取所有的职业信息
+    // get('http://127.0.0.1:3000/users/4', function (userData) {
+    //   get('http://127.0.0.1:3000/jobs', function (jobsData) {
+    //     var htmlStr = template('tpl', {
+    //       user: JSON.parse(userData),
+    //       jobs: JSON.parse(jobsData)
+    //     })
+    //     console.log(htmlStr)
+    //     document.querySelector('#user_form').innerHTML = htmlStr
+    //   })
+    // })
+
+    // var data = {}
+    // $.get('http://127.0.0.1:3000/users/4')
+    //   .then(function (user) {
+    //     data.user = user
+    //     return $.get('http://127.0.0.1:3000/jobs')
+    //   })
+    //   .then(function (jobs) {
+    //     data.jobs = jobs
+    //     var htmlStr = template('tpl', data)
+    //     document.querySelector('#user_form').innerHTML = htmlStr
+    //   })
+
+    // var data = {}
+    // pGet('http://127.0.0.1:3000/users/4')
+    //   .then(function (user) {
+    //     data.user = user
+    //     return pGet('http://127.0.0.1:3000/jobs')
+    //   })
+    //   .then(function (jobs) {
+    //     data.jobs = jobs
+    //     var htmlStr = template('tpl', data)
+    //     document.querySelector('#user_form').innerHTML = htmlStr
+    //   })
+
+    // pGet('http://127.0.0.1:3000/users/4', function (data) {
+    //   console.log(data)
+    // })
+
+    // function get(url, callback) {
+    //   var oReq = new XMLHttpRequest()
+    //   oReq.onload = function () {
+    //     callback(oReq.responseText)
+    //   }
+    //   oReq.open("get", url, true)
+    //   oReq.send()
+    // }
+  </script>
+ 
+</body>
+
+</html>

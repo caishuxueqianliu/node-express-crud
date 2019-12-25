@@ -1,5 +1,9 @@
 npm install -g --force nodemon
-
+npm install http-server -g
+npx http-server
+PrettyJson
+npm install -g json-server
+json-server --watch db.json
 安装配置
 https://blog.csdn.net/xueyawuhai/article/details/98973708
 
